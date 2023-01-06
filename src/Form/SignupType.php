@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 use function PHPSTORM_META\type;
 
@@ -22,6 +23,12 @@ class SignupType extends AbstractType
             
             ->add('firstname', TextType::class,[
                 'label'=>'Prénom',
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 30,
+                    'minMessage' => 'Votre prénom doit contenir au moins 2 caractères',
+                    'maxMessage' => 'Votre prénom ne doit pas contenir plus de 30 caractères'
+                ]),
                 'attr'=>[
                     'placeholder'=>'Entrez votre prénom'
                 ]
@@ -29,6 +36,12 @@ class SignupType extends AbstractType
 
             ->add('lastname', TextType::class,[
                 'label'=>'Nom',
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 30,
+                    'minMessage' => 'Votre nom doit contenir au moins 2 caractères',
+                    'maxMessage' => 'Votre nom ne doit pas contenir plus de 30 caractères'
+                ]),
                 'attr'=>[
                     'placeholder'=>'Entrez votre nom'
                 ]
@@ -46,8 +59,14 @@ class SignupType extends AbstractType
                 'invalid_message'=>'les mots de passe doivent être identiques',
                 'label'=>'Mot de passe',
                 'required'=>true,
-                'first_options'=>['label'=> 'Mot de passe'],
-                'second_options'=>['label'=>'Confirmez le mot de passe']
+                'first_options'=>[
+                    'label'=> 'Mot de passe',
+                    'attr'=>['placeholder'=>'Entrez un mot de passe']
+                ],
+                'second_options'=>[
+                    'label'=>'Confirmez le mot de passe',
+                    'attr'=>['placeholder'=>'Confirmez le mot de passe']
+                    ]
             ]) //input
 
             ->add('submit', SubmitType::class,[
