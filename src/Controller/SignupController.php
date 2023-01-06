@@ -20,7 +20,7 @@ class SignupController extends AbstractController
         $this->entityManager = $entityManager; //mets l'entityManager que l'on vient d'instancier dans la variable privée entityManager
     }
 
-    #[Route('/signup', name: 'app_signup')]
+    #[Route('/signup', name: 'signup')]
 
     public function index(Request $req, UserPasswordHasherInterface $encoder): Response
     {

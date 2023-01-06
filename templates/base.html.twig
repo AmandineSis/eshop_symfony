@@ -6,7 +6,7 @@
     <meta name="description" content="La boutique qui vend uniquement du made in france">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
-    <title>{% block title %}Cocorico2 - Boutique 100% Française{% endblock %}</title>
+    <title>{% block title %}Cocorico - Boutique 100% Française{% endblock %}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -43,12 +43,12 @@
                     <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-               
             </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Votre recherche" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
-            </form>
+            {% if app.user %}
+            <a href="{{path('account')}}">Mon compte</a> | <a href="{{path('app_logout')}}">Déconnexion</a>
+            {% else %}
+            <a href="{{path('login')}}">Connexion</a> | <a href="{{path('signup')}}">Inscription</a>
+            {% endif %}
         </div>
     </nav>
 </header>
