@@ -22,27 +22,28 @@ class SignupController extends AbstractController
 
     #[Route('/signup', name: 'signup')]
 
+
     public function index(Request $req, UserPasswordHasherInterface $encoder): Response
     {
         $user = new User();
         $form =  $this->createForm(SignupType::class, $user); //création du formulaire
-        
+
         $form->handleRequest($req);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
 
             $password = $encoder->hashPassword($user, $user->getPassword());
             $user->setPassword($password);
 
-            $this->entityManager->persist($user);//figer les données
-            $this->entityManager->flush();//envoyer les données vers bdd
+            $this->entityManager->persist($user); //figer les données
+            $this->entityManager->flush(); //envoyer les données vers bdd
         }
 
 
         return $this->render('signup/index.html.twig', [
             'myForm' => $form->createView(), //crée la vue du formulaire
-            
+
         ]);
     }
 }
