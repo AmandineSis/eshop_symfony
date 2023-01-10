@@ -12,3 +12,35 @@
     padding: 25px;
     ;
 }
+
+.product-item {
+    margin-top: 50px;
+}
+
+.product-item h4 {
+    text-transform: uppercase;
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+
+
+.product-item .product-subtitle {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.product-item .product-price {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.product-container {
+    margin-bottom: 150px;
+}
+
+.product-detail-price {
+    font-size: 20px;
+}
