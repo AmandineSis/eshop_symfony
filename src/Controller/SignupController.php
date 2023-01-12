@@ -22,7 +22,6 @@ class SignupController extends AbstractController
 
     #[Route('/signup', name: 'signup')]
 
-
     public function index(Request $req, UserPasswordHasherInterface $encoder): Response
     {
         $user = new User();
