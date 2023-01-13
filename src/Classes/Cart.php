@@ -2,17 +2,48 @@
 
 namespace App\Classes;
 
-use App\Entity\Category;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class Cart
+class Cart extends AbstractController
 {
-    /**
-     * @var string
-     */
-    public $string = '';
+    protected $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
 
     /**
-     * @var Category[]
+     * 
      */
-    public $categories = [];
-}
+    public function add($id) //add($id) provient du controller cart
+    {
+        $session = $this->requestStack->getSession();
+
+        $session->set('cart', [
+            [
+                'id' => $id,
+                'quantity' => 1
+            ]
+        ]);
+    }
+
+    /**
+     * 
+     */
+    public function get()
+    {
+        $session = $this->requestStack->getSession();
+        return $session->get('cart');
+    }
+    
+    /**
+     * 
+     */
+    public function remove()
+    {
+        $session = $this->requestStack->getSession();
+        return $session->remove('cart');
+    }
+};
