@@ -6,7 +6,7 @@ use App\Classes\Cart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
+
 
 class CartController extends AbstractController
 {
@@ -25,5 +25,14 @@ class CartController extends AbstractController
         $cart->add($id);
 
         return $this->redirectToRoute('cart');
+    }
+
+    #[Route('/cart/remove', name: 'cart_remove')]
+    public function remove(Cart $cart): Response
+    {
+       
+        $cart->remove();
+
+        return $this->redirectToRoute('products');
     }
 }
