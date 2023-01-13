@@ -21,12 +21,16 @@ class Cart extends AbstractController
     {
         $session = $this->requestStack->getSession();
 
-        $session->set('cart', [
-            [
-                'id' => $id,
-                'quantity' => 1
-            ]
-        ]);
+        $cart = $session->get('cart', []);
+
+        //si product.id existe dans le panier alors ajoute +1 à la quantité, sinon ajoute le produit au panier
+        if (!empty($cart[$id])) {
+            $cart[$id]++;
+        } else {
+            $cart[$id] = 1;
+        }
+
+        $session->set('cart', $cart);
     }
 
     /**
@@ -37,7 +41,7 @@ class Cart extends AbstractController
         $session = $this->requestStack->getSession();
         return $session->get('cart');
     }
-    
+
     /**
      * 
      */
