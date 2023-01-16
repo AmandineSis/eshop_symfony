@@ -20,11 +20,13 @@ class UserAccountAddressController extends AbstractController
         $this->entityManager = $entityManager; //mets l'entityManager que l'on vient d'instancier dans la variable privée entityManager
     }
 
+
     #[Route('/user/account/address', name: 'account_address')]
     public function index(): Response
     {
         return $this->render('user_account/address.html.twig');
     }
+
 
     #[Route('/user/account/add_address', name: 'account_add_address')]
     public function add(Request $req): Response
@@ -35,7 +37,7 @@ class UserAccountAddressController extends AbstractController
         $form->handleRequest($req);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $address->setUser($this->getUser()); //ajoute aux données de l'adresse le nom de l'utilisateur
+            $address->setUser($this->getUser()); //associe l'utilisateur aux données de l'adresse
 
             $this->entityManager->persist($address); //figer les données
             $this->entityManager->flush(); //envoyer les données vers bdd
@@ -44,7 +46,34 @@ class UserAccountAddressController extends AbstractController
 
 
 
-        return $this->render('user_account/add_address.html.twig', [
+        return $this->render('user_account/address_form.html.twig', [
+            'address_form' => $form->createView()
+        ]);
+    }
+
+
+    #[Route('/user/account/edit_address/{id}', name: 'account_edit_address')]
+    public function edit(Request $req, $id): Response
+    {
+        //recup avec doctrine (entityManager) dans le repo address de l'adresse correspondante à l'id
+        $address = $this->entityManager->getRepository(Address::class)->findOneById($id);
+
+        if (!$address || $address->getUser() != $this->getUser()) { //si l'adresse n'existe pas ou si l'utilisateur associé à l'adresse est différent de l'utilisateur connecté
+            return $this->redirectToRoute('account_address');
+        }
+
+        $form = $this->createForm(AddressType::class, $address);
+
+        $form->handleRequest($req);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush(); //envoyer les données vers bdd
+            return $this->redirectToRoute('account_address');
+        }
+
+
+
+        return $this->render('user_account/address_form.html.twig', [
             'address_form' => $form->createView()
         ]);
     }

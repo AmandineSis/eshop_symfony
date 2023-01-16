@@ -7,7 +7,7 @@
     <h1>Mes adresses</h1>
     Dans cet espace vous pouvez gérer vos adresses</br>
 
-    <a href={{path('account')}}>Retour</a><br/>
+    <a href="{{path('account')}}">Retour</a><br/>
     <hr>
   
     {% if app.user.addresses|length == 0 %}
@@ -16,7 +16,22 @@
             Pour en ajouter une <a href="">cliquez ici</a>
         </p>
     {% else %}
-        VUE DE MES ADRESSES
+        <div class="row">
+            {% for address in app.user.addresses %}
+                <div class="col-md-4">
+                    <div class="card mt-4" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{address.name}}</h5>
+                            <p class="card-text">
+                                {{address.address}}</br>
+                                {{address.postcode}} - {{address.city}} - {{address.country}}
+                            </p>
+                            <a href="{{ path('account_edit_address', {'id' : address.id}) }}">Modifier</a> | <a href="#">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     
     {% endif %}
    
