@@ -2,15 +2,20 @@
 
 namespace App\Classes;
 
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class Cart extends AbstractController
 {
     protected $requestStack;
+    private $entityManager; //convention de nommage pour doctrine
 
-    public function __construct(RequestStack $requestStack)
+
+    public function __construct(EntityManagerInterface $entityManager, RequestStack $requestStack)
     {
+        $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
     }
 
@@ -58,5 +63,35 @@ class Cart extends AbstractController
         unset($cart[$id]);
         $session->set('cart', $cart);
         return $session->get('cart');
+    }
+
+    public function decreaseQuantity($id)
+    {
+        $session = $this->requestStack->getSession();
+        $cart = $session->get('cart');
+
+        if ($cart[$id] > 1) {
+            $cart[$id]--;
+        } else {
+            unset($cart[$id]);
+        };
+
+        $session->set('cart', $cart);
+    }
+
+    public function getFullCart()
+    {
+        $session = $this->requestStack->getSession();
+        $cart = $session->get('cart');
+        $cartComplete = [];
+
+        foreach ($this->get() as $id => $quantity) {
+            $cartComplete[] = [
+                'product' => $this->entityManager->getRepository(Product::class)->findOneById($id),
+                'quantity' => $quantity
+            ];
+        }
+
+        return $cartComplete;
     }
 };
