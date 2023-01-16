@@ -26,7 +26,7 @@
                                 {{address.address}}</br>
                                 {{address.postcode}} - {{address.city}} - {{address.country}}
                             </p>
-                            <a href="{{ path('account_edit_address', {'id' : address.id}) }}">Modifier</a> | <a href="#">Supprimer</a>
+                            <a href={{ path('account_edit_address', {'id' : address.id}) }}>Modifier</a> | <a href={{ path('account_delete_address', {'id' : address.id}) }}>Supprimer</a>
                         </div>
                     </div>
                 </div>

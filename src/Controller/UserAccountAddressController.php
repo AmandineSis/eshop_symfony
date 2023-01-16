@@ -77,4 +77,19 @@ class UserAccountAddressController extends AbstractController
             'address_form' => $form->createView()
         ]);
     }
+
+
+    #[Route('/user/account/delete_address/{id}', name: 'account_delete_address')]
+    public function delete($id): Response
+    {
+        //recup avec doctrine (entityManager) dans le repo address de l'adresse correspondante à l'id
+        $address = $this->entityManager->getRepository(Address::class)->findOneById($id);
+
+        if ($address && $address->getUser() == $this->getUser()) { //si l'adresse n'existe pas ou si l'utilisateur associé à l'adresse est différent de l'utilisateur connecté
+            $this->entityManager->remove($address); //envoyer les données vers bdd
+            $this->entityManager->flush(); //envoyer les données vers bdd
+        }
+
+        return $this->redirectToRoute('account_address');
+    }
 }
