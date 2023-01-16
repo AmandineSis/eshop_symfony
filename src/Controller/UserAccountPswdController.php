@@ -33,7 +33,6 @@ class UserAccountPswdController extends AbstractController
         $form->handleRequest($req); //écoute la requête entrante
         if ($form->isSubmitted() && $form->isValid()) {
             $oldPwd = $form->get('old_password')->getData();
-            dd($oldPwd);
         }
 
         return $this->render('user_account/password.html.twig', [
