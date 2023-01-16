@@ -14,6 +14,7 @@ Retrouvez l'ensemble des produits que vous avez ajouté à votre panier
       <th scope="col">Quantité</th>
       <th scope="col">Prix</th>
       <th scope="col">Total</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -21,17 +22,26 @@ Retrouvez l'ensemble des produits que vous avez ajouté à votre panier
 {% set totalQuantity = null %}
   {% for product in cart %}
     <tr>
-      <th scope="row">
-        <img src="upload/{{ product.product.image }}" alt="{{ product.product.name}}" height="75px"> 
-      </th>
-      <td>
-        {{product.product.name}}<br/>
-        <small>{{ product.product.subtitle}}</small>
-      
-      </td>
-      <td>{{product.quantity}}</td>
-      <td>{{ (product.product.price/100)|number_format(2, ',','.')}}€</td>
-      <td>{{ ((product.product.price * product.quantity)/100)|number_format(2, ',','.')}}€</td>
+        <th scope="row">
+            <img src="upload/{{ product.product.image }}" alt="{{ product.product.name}}" height="75px"> 
+        </th>
+        <td>
+            {{product.product.name}}<br/>
+            <small>{{ product.product.subtitle}}</small>
+        </td>
+        <td>{{product.quantity}}</td>
+        <td>
+            {{ (product.product.price/100)|number_format(2, ',','.')}}€
+        </td>
+        <td>
+            {{ ((product.product.price * product.quantity)/100)|number_format(2, ',','.')}}€
+        </td>
+        <td>
+            <a href="">
+                <img src="{{ asset('assets/img/bin.png') }}" alt="supprimer mon produit" height="20px">
+            </a>
+            
+        </td>
     </tr>
 
     {% set totalPrice = totalPrice + (product.product.price * product.quantity) %}
