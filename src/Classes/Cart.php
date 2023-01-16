@@ -86,11 +86,19 @@ class Cart extends AbstractController
         $cartComplete = [];
 
         foreach ($this->get() as $id => $quantity) {
+            $product_object = $this->entityManager->getRepository(Product::class)->findOneById($id);
+
+            //si le produit retourné par l'Id n'existe pas alors suppression du produit
+            if (!$product_object) {
+                $this->delete($id);
+                continue; //sort de la boucle forEach et donc n'affecte pas de produit à la variable $cartComplete
+            }
             $cartComplete[] = [
-                'product' => $this->entityManager->getRepository(Product::class)->findOneById($id),
+                'product' => $product_object,
                 'quantity' => $quantity
             ];
-        }
+        }    
+        
 
         return $cartComplete;
     }
