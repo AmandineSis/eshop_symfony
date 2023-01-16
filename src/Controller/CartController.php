@@ -24,6 +24,7 @@ class CartController extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(Cart $cart): Response
     {
+
         $cartComplete = [];
 
         foreach ($cart->get() as $id => $quantity) {
@@ -32,12 +33,15 @@ class CartController extends AbstractController
                 'quantity' => $quantity
             ];
         }
-        return $this->render('cart/index.html.twig', [
-            'cart' => $cartComplete,
 
-        ]);
+        if (count($cartComplete) > 0) {
+            return $this->render('cart/index.html.twig', [
+                'cart' => $cartComplete,
+            ]);
+        } else {
+            return $this->redirectToRoute('products');
+        };
     }
-
     #[Route('/cart/add/{id}', name: 'cart_add')]
     public function add(Cart $cart, $id): Response
     {
