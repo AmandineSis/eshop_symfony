@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use function PHPUnit\Framework\isEmpty;
 
 class CartController extends AbstractController
 {
@@ -53,5 +54,13 @@ class CartController extends AbstractController
         $cart->remove();
 
         return $this->redirectToRoute('products');
+    }
+
+    #[Route('/cart/delete/{id}', name: 'delete_product')]
+    public function deleteProduct(Cart $cart, $id): Response
+    {
+
+        $cart->delete($id);
+        return $this->redirectToRoute('cart');
     }
 }

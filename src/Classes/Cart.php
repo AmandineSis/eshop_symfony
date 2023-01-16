@@ -20,7 +20,7 @@ class Cart extends AbstractController
     public function add($id) //add($id) provient du controller cart
     {
         $session = $this->requestStack->getSession();
-
+        // stores an attribute for reuse during a later user request $session->set('attribute-name', 'attribute-value');
         $cart = $session->get('cart', []);
 
         //si product.id existe dans le panier alors ajoute +1 à la quantité, sinon ajoute le produit au panier
@@ -49,5 +49,14 @@ class Cart extends AbstractController
     {
         $session = $this->requestStack->getSession();
         return $session->remove('cart');
+    }
+
+    public function delete($id)
+    {
+        $session = $this->requestStack->getSession();
+        $cart = $session->get('cart');
+        unset($cart[$id]);
+        $session->set('cart', $cart);
+        return $session->get('cart');
     }
 };
