@@ -46,7 +46,9 @@ class Address
 
     public function __toString()
     {
-        return $this->getName();
+        return $this->getName() . '[br]' . $this->getAddress() . '[br]' .
+            $this->getCity() . ' - ' .
+            $this->getCountry();
     }
 
 

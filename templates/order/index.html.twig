@@ -13,8 +13,11 @@
     </div>
     <div class="col-md-6">
         <b>Choisir mon adresse de livraison</b></br>
-        {{ form(orderForm)}}
-        <b>Choisir mon transporteur</b></br>
+        {% set formHtml %}
+            {{ form(orderForm)}}
+        {% endset %}
+        
+        {{ formHtml|replace({'[br]' : '<br/>'})| raw }}
         <b>Bouton paiement</b>
     </div>
 </div>

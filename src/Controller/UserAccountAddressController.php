@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\Cart;
 use App\Entity\Address;
 use App\Form\AddressType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,7 +30,7 @@ class UserAccountAddressController extends AbstractController
 
 
     #[Route('/user/account/add_address', name: 'account_add_address')]
-    public function add(Request $req): Response
+    public function add(Request $req, Cart $cart): Response
     {
         $address = new Address();
         $form = $this->createForm(AddressType::class, $address);
@@ -41,10 +42,13 @@ class UserAccountAddressController extends AbstractController
 
             $this->entityManager->persist($address); //figer les données
             $this->entityManager->flush(); //envoyer les données vers bdd
-            return $this->redirectToRoute('account_address');
+
+            if($cart->get()){
+                return $this->redirectToRoute('order');
+            } else {
+                return $this->redirectToRoute('account_address');
+            }
         }
-
-
 
         return $this->render('user_account/address_form.html.twig', [
             'address_form' => $form->createView()
