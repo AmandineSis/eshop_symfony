@@ -27,7 +27,10 @@ class CartController extends AbstractController
 
         $fullCart = $cart->getFullCart();
 
-        if (count($fullCart) > 0) {
+        if ($fullCart == null) {  
+            return $this->redirectToRoute('products');
+
+        } elseif(count($fullCart) > 0) {
             return $this->render('cart/index.html.twig', [
                 'cart' => $fullCart
             ]);
@@ -35,6 +38,8 @@ class CartController extends AbstractController
             return $this->redirectToRoute('products');
         };
     }
+
+    
     #[Route('/cart/add/{id}', name: 'cart_add')]
     public function add(Cart $cart, $id): Response
     {

@@ -84,6 +84,9 @@ class Cart extends AbstractController
         $session = $this->requestStack->getSession();
         $cart = $session->get('cart');
         $cartComplete = [];
+        if ($cart == null) {
+            return $cartComplete = [];
+        }
 
         foreach ($this->get() as $id => $quantity) {
             $product_object = $this->entityManager->getRepository(Product::class)->findOneById($id);
@@ -97,9 +100,7 @@ class Cart extends AbstractController
                 'product' => $product_object,
                 'quantity' => $quantity
             ];
-        }    
-        
-
+        }
         return $cartComplete;
     }
 };

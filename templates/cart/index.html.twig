@@ -62,6 +62,6 @@ Retrouvez l'ensemble des produits que vous avez ajouté à votre panier
 <div class="text-right mb-5">
     <b>Nombre de produits :</b> {{ totalQuantity }}<br/> <!-- cart length calcul le nombre de produits -->
     <b>Total panier :</b> {{ (totalPrice/100)|number_format(2, ',','.') }}€
-    <a href="" class="btn btn-success btn-block mt-5">Valider mon panier</a>
+    <a href="{{path('order')}}" class="btn btn-success btn-block mt-5">Valider mon panier</a>
 
 {% endblock %}
