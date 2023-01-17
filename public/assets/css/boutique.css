@@ -13,6 +13,11 @@
     ;
 }
 
+.block-small {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
 .product-item {
     margin-top: 50px;
 }
