@@ -9,16 +9,33 @@
 <hr>
 <div class="row">
     <div class="col-md-6">
-        <b>Récap de ma commande</b>
+        <div class="text-center">
+            <b>Récap de ma commande</b>
+            <p>Retrouvez le récapitulatif de vos produits</p>
+        </div>
+        <div class="order-summary">
+            {% for key,product in cart %}
+            <div class="row {%if key > 0 %}mt-2{% endif %}">
+                <div class="col-2">
+                    <img src="upload/{{ product.product.image }}" alt="{{ product.product.name}}" height="75px">
+                </div>
+                <div class="col-8 my-auto">
+                    {{ product.product.name }}</br>
+                    {{ product.product.subtitle}}
+                </div>
+                <div class="col-2 my-auto">
+                    x {{ product.quantity }}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
     </div>
     <div class="col-md-6">
-        <b>Choisir mon adresse de livraison</b></br>
         {% set formHtml %}
             {{ form(orderForm)}}
         {% endset %}
         
         {{ formHtml|replace({'[br]' : '<br/>'})| raw }}
-        <b>Bouton paiement</b>
     </div>
 </div>
 {% endblock %}
