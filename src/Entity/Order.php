@@ -109,6 +109,18 @@ class Order
         return $this;
     }
 
+    public function isPaid(): ?bool
+    {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(bool $isPaid): self
+    {
+        $this->isPaid = $isPaid;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, OrderDetails>
      */
@@ -135,18 +147,6 @@ class Order
                 $orderDetail->setMyOrder(null);
             }
         }
-
-        return $this;
-    }
-
-    public function isIsPaid(): ?bool
-    {
-        return $this->isPaid;
-    }
-
-    public function setIsPaid(bool $isPaid): self
-    {
-        $this->isPaid = $isPaid;
 
         return $this;
     }

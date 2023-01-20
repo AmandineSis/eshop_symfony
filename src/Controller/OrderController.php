@@ -57,25 +57,25 @@ class OrderController extends AbstractController
             $date = new DateTime();
             $carrier = $form->get('carrier')->getData();
             $delivery = $form->get('addresses')->getData();
-            $delivery_content = $delivery->getFirsname().' '.$delivery->getLastname();
+            $delivery_content = $delivery->getFirstname() . ' ' . $delivery->getLastname();
+            $delivery_content .= '<br/>' . $delivery->getPhone();
 
-            if($delivery->getCompany()) {
-                $delivery_content .='<br/>'.$delivery->getCompany();
+            if ($delivery->getCompany()) {
+                $delivery_content .= '<br/>' . $delivery->getCompany();
             };
 
-            $delivery_content .='<br/>'.$delivery->getAddress();
-         /*   $delivery_content .='<br/>'.$delivery->getCompany(); postcode + city
-            $delivery_content .='<br/>'.$delivery->getCompany(); country
-            $delivery_content .='<br/>'.$delivery->getCompany(); phone*/
-
+            $delivery_content .= '<br/>' . $delivery->getAddress();
+            $delivery_content .= '<br/>' . $delivery->getPostcode() . ' ' . $delivery->getCity();
+            $delivery_content .= '<br/>' . $delivery->getCountry();
+            dd($delivery_content);
             //enregistrer ma commande Order()
             $order = new Order();
             $order->setUser($this->getUser());
             $order->setCreatedAt($date);
             $order->setCarrierName($carrier->getName());
             $order->setCarrierprice($carrier->getPrice());
-
-
+            $order->setDelivery($delivery_content);
+            $order->setIsPaid(0);
 
             //enregistrer mes produits OrderDetails()
         }
