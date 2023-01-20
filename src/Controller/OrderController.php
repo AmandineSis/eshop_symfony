@@ -36,13 +36,13 @@ class OrderController extends AbstractController
             'user' => $this->getUser() //permet de récup du coté formulaire en option l'utilisateur en cours
         ]);
 
-        return $this->render('order/add.html.twig', [
+        return $this->render('order/index.html.twig', [
             'order_form' => $form->createView(),
             'cart' => $cart->getFullCart()
         ]);
     }
 
-    #[Route('/order/summary', name: 'order_summary')]
+    #[Route('/order/summary', name: 'order_summary', methods: ['POST'])]
     public function addOrder(Cart $cart, Request $req): Response
     {
 
@@ -95,11 +95,15 @@ class OrderController extends AbstractController
                 $this->entityManager->persist($orderDetails);
             }
             //envoi des données à la bdd
-            $this->entityManager->flush();
+            // $this->entityManager->flush();
+
+            return $this->render('order/add.html.twig', [
+                'cart' => $cart->getFullCart(),
+                'carrier' => $carrier,
+                'delivery' => $delivery_content
+            ]);
         }
 
-        return $this->render('order/index.html.twig', [
-            'cart' => $cart->getFullCart()
-        ]);
+        return $this->redirectToRoute('cart');
     }
 }
