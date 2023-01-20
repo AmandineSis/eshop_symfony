@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Classes\Cart;
 use App\Entity\Order;
+use App\Entity\OrderDetails;
 use App\Form\OrderType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,7 +68,7 @@ class OrderController extends AbstractController
             $delivery_content .= '<br/>' . $delivery->getAddress();
             $delivery_content .= '<br/>' . $delivery->getPostcode() . ' ' . $delivery->getCity();
             $delivery_content .= '<br/>' . $delivery->getCountry();
-            dd($delivery_content);
+
             //enregistrer ma commande Order()
             $order = new Order();
             $order->setUser($this->getUser());
@@ -77,7 +78,24 @@ class OrderController extends AbstractController
             $order->setDelivery($delivery_content);
             $order->setIsPaid(0);
 
+            //Ajout des données dans la table order
+            $this->entityManager->persist($order);
             //enregistrer mes produits OrderDetails()
+
+            //Pour chauqe produits du panier je veux que tu fasses une nouvelle entrée dans order details et enfin que tu fasses le lien entre orderDetails() et order()
+
+            foreach ($cart->getFullCart() as $cartProduct) {
+                $orderDetails = new OrderDetails();
+                $orderDetails->setMyOrder($order);
+                $orderDetails->setProduct($cartProduct['product']->getName());
+                $orderDetails->setQuantity($cartProduct['quantity']); //tableau quantity se trouve directement dans l'objet $cartProduct
+                $orderDetails->setPrice($cartProduct['product']->getPrice());
+                $orderDetails->setTotal($cartProduct['product']->getPrice() * $cartProduct['quantity']);
+                //ajout des données dansla table orderDetails
+                $this->entityManager->persist($orderDetails);
+            }
+            //envoi des données à la bdd
+            $this->entityManager->flush();
         }
 
         return $this->render('order/index.html.twig', [
