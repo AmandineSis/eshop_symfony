@@ -7,11 +7,11 @@ use App\Form\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 
 class UserAccountPswdController extends AbstractController
 {
@@ -24,15 +24,16 @@ class UserAccountPswdController extends AbstractController
 
     #[Route('/account/password', name: 'account_password')]
 
-    public function index(Request $req, UserPasswordHasherInterface $encoder, UserInterface $user): Response
+    public function index(Request $req, UserPasswordHasherInterface $encoder): Response
     {
-        $user = $this->getUser(); //ajout de l'objet user courant à la variable $user
+          $user = $this->getUser(); //ajout de l'objet user courant à la variable $user
 
         $form = $this->createForm(ChangePasswordType::class, $user);
 
         $form->handleRequest($req); //écoute la requête entrante
         if ($form->isSubmitted() && $form->isValid()) {
             $oldPwd = $form->get('old_password')->getData();
+           
         }
 
         return $this->render('user_account/password.html.twig', [
