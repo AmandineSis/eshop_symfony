@@ -26,14 +26,13 @@ class UserAccountPswdController extends AbstractController
 
     public function index(Request $req, UserPasswordHasherInterface $encoder): Response
     {
-          $user = $this->getUser(); //ajout de l'objet user courant à la variable $user
-
+        $user = $this->getUser(); //ajout de l'objet user courant à la variable $user
+        
         $form = $this->createForm(ChangePasswordType::class, $user);
 
         $form->handleRequest($req); //écoute la requête entrante
         if ($form->isSubmitted() && $form->isValid()) {
             $oldPwd = $form->get('old_password')->getData();
-           
         }
 
         return $this->render('user_account/password.html.twig', [

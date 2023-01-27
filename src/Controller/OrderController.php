@@ -71,13 +71,14 @@ class OrderController extends AbstractController
 
             //enregistrer ma commande Order()
             $order = new Order();
+            $reference = $date->format('dmY') . '-' . uniqid();
+            $order->setReference($reference);
             $order->setUser($this->getUser());
             $order->setCreatedAt($date);
             $order->setCarrierName($carrier->getName());
             $order->setCarrierprice($carrier->getPrice());
             $order->setDelivery($delivery_content);
             $order->setIsPaid(0);
-
             //Ajout des données dans la table order
             $this->entityManager->persist($order);
 
@@ -96,12 +97,15 @@ class OrderController extends AbstractController
                 //ajout des données dansla table orderDetails
                 $this->entityManager->persist($orderDetails);
             }
+         
+
+            $this->entityManager->flush();
 
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFullCart(),
                 'carrier' => $carrier,
                 'delivery' => $delivery_content,
-                'stripe_key' => "pk_test_51MSNTJJOUd0HUzDNOi67kBt4CdB1GqOVfig515eR5WyafuxLcMKRVkGqxjrOTrcr1j86bdS0TdHbVnsllemgDqyR003WYdqUFj",
+                'orderRef' => $order->getReference()
             ]);
         }
 
