@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Récapitulatif de commande - Cocorico{% endblock %}
 
 {% block content %}
@@ -52,9 +53,10 @@
             {{ carrier.description }}<br/>
             {{ carrier.price|number_format(2, ',','.  ')}}€ 
         </div>
-    <a href="" class="btn btn-success btn-block mt-3 p-3"><strong>Payer | {{  ((total/100) + carrier.price)|number_format(2, ',',  '.')}}€</strong></a>
-    </div>
-        
-  
-    </div>
+    
+    <form action="{{ path('stripe_checkout') }}" method="POST">
+        <button type="submit" id="checkout-button" class="btn btn-success btn-block mt-3 p-3">Payer | {{  ((total/100) + carrier.price)|number_format(2, ',',  '.')}}€</button>
+    </form>
+</div>
+
 {% endblock %}

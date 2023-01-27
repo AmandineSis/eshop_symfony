@@ -8,8 +8,6 @@ use App\Entity\OrderDetails;
 use App\Form\OrderType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\Checkout\Session;
-use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -44,7 +42,7 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/order/summary', name: 'order_summary', methods: ['POST'])]
+    #[Route('/order/summary', name: 'order_summary')]
     public function addOrder(Cart $cart, Request $req): Response
     {
 
@@ -82,10 +80,9 @@ class OrderController extends AbstractController
 
             //Ajout des données dans la table order
             $this->entityManager->persist($order);
+
             //enregistrer mes produits OrderDetails()
 
-            $product_for_stripe = [];
-            $YOUR_DOMAIN = 'https://127.0.0.1:8000/';
             //Pour chauqe produits du panier je veux que tu fasses une nouvelle entrée dans order details et enfin que tu fasses le lien entre orderDetails() et order()
 
             foreach ($cart->getFullCart() as $cartProduct) {
@@ -98,59 +95,13 @@ class OrderController extends AbstractController
                 $orderDetails->setTotal($cartProduct['product']->getPrice() * $cartProduct['quantity']);
                 //ajout des données dansla table orderDetails
                 $this->entityManager->persist($orderDetails);
-
-                $product_for_stripe[] = 
-                    // 'price_data' => [
-                    //     'price' => 'price_1MTmadJOUd0HUzDNp1H6v6Zw',
-                    //     'currency' => 'eur',
-                    //     'unit_amount' => $cartProduct['product']->getPrice(),
-                    //     'product_data' => [
-                    //         'name' => $cartProduct['product']->getName(),
-                    //         'images' => [$YOUR_DOMAIN . "upload/" . $cartProduct['product']->getImage()],
-                    //     ],
-                    // ],
-                    // 'quantity' => $cartProduct['quantity'],
-                    [
-                        'price_data' => [
-                            'currency' => 'eur',
-                            'unit_amount' => $cartProduct['product']->getPrice(),
-                            'product_data' => [
-                                'name' => $cartProduct['product']->getName(),
-                                'images' => [$YOUR_DOMAIN . "upload/" . $cartProduct['product']->getImage()]
-                            ],
-                        ],
-                        'quantity' => $cartProduct['quantity'],
-                    
-                ];
             }
-            //dd($product_for_stripe);
-            /********************************************************************* */
-            Stripe::setApiKey('sk_test_51MSNTJJOUd0HUzDNzD55GQvEcSRgSW1nIPLGXJFtQLO4vwEV42mltZNtKVB6fMIw8kR2wTpRtcEbD66kjGjv3fgJ00Cwe4l20L');
 
-            $checkout_session = Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [
-                    $product_for_stripe
-                ],
-                'mode' => 'payment',
-                'success_url' => $YOUR_DOMAIN . '/success.html',
-                'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
-            ]);
-
-            dd($checkout_session);
-
-
-
-
-
-
-
-
-            /********************************************************************** */
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFullCart(),
                 'carrier' => $carrier,
-                'delivery' => $delivery_content
+                'delivery' => $delivery_content,
+                'stripe_key' => "pk_test_51MSNTJJOUd0HUzDNOi67kBt4CdB1GqOVfig515eR5WyafuxLcMKRVkGqxjrOTrcr1j86bdS0TdHbVnsllemgDqyR003WYdqUFj",
             ]);
         }
 
