@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes - Cocorico{% endblock %}
+
+{% block content %}
+
+    
+    
+    <h1>Mes commandes</h1>
+  
+
+    <a href="{{path('account')}}">Retour</a><br/>
+    <hr>
+  
+    {{ dump(order) }}    
+   
+{% endblock %}
