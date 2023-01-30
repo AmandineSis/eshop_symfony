@@ -22,14 +22,14 @@ class UserAccountAddressController extends AbstractController
     }
 
 
-    #[Route('/user/account/address', name: 'account_address')]
+    #[Route('/account/address', name: 'account_address')]
     public function index(): Response
     {
         return $this->render('user_account/address.html.twig');
     }
 
 
-    #[Route('/user/account/add_address', name: 'account_add_address')]
+    #[Route('/account/add_address', name: 'account_add_address')]
     public function add(Request $req, Cart $cart): Response
     {
         $address = new Address();
@@ -43,7 +43,7 @@ class UserAccountAddressController extends AbstractController
             $this->entityManager->persist($address); //figer les données
             $this->entityManager->flush(); //envoyer les données vers bdd
 
-            if($cart->get()){
+            if ($cart->get()) {
                 return $this->redirectToRoute('order');
             } else {
                 return $this->redirectToRoute('account_address');
@@ -56,7 +56,7 @@ class UserAccountAddressController extends AbstractController
     }
 
 
-    #[Route('/user/account/edit_address/{id}', name: 'account_edit_address')]
+    #[Route('/account/edit_address/{id}', name: 'account_edit_address')]
     public function edit(Request $req, $id): Response
     {
         //recup avec doctrine (entityManager) dans le repo address de l'adresse correspondante à l'id
@@ -83,7 +83,7 @@ class UserAccountAddressController extends AbstractController
     }
 
 
-    #[Route('/user/account/delete_address/{id}', name: 'account_delete_address')]
+    #[Route('/account/delete_address/{id}', name: 'account_delete_address')]
     public function delete($id): Response
     {
         //recup avec doctrine (entityManager) dans le repo address de l'adresse correspondante à l'id

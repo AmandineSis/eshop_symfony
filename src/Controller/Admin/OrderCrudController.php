@@ -27,8 +27,8 @@ class OrderCrudController extends AbstractCrudController
             ->add('index', 'detail')
             ->remove('index', 'edit')
             ->remove('index', 'delete')
-            ->remove('detail', 'edit')
-            ->remove('detail', 'delete');
+            ->remove('detail', 'delete')
+            ->remove('detail', 'edit');
     }
 
     public function configureCrud(Crud $crud): Crud
