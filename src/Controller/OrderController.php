@@ -97,7 +97,7 @@ class OrderController extends AbstractController
                 //ajout des données dansla table orderDetails
                 $this->entityManager->persist($orderDetails);
             }
-         
+
 
             $this->entityManager->flush();
 

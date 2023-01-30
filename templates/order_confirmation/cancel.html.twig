@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annulation de paiement - Cocorico{% endblock %}
+
+{% block content %}
+    <h2>Annulation de paiement</h2>
+    <hr>
+    <p>
+        Bonjour <strong>{{ order.user.firstname }} {{ order.user.lastname }} </strong>, </br>
+        </br> 
+        Vous souhaitez ajouter des articles à votre commande n°<strong>{{ order.reference }}</strong> ?</br> 
+        </br> 
+        Faites un tour sur notre boutique et revenez payer plus tard ! 
+        <hr>
+        <a href="{{path('order')}}" class="btn btn-success ">Retour à ma commande</a>
+    </p>
+{% endblock %}

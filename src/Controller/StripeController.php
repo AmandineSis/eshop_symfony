@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Classes\Cart;
 use App\Entity\Order;
-use App\Entity\OrderDetails;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
@@ -31,7 +30,7 @@ class StripeController extends AbstractController
         //Récupération de la référence de commande
         $order = $entityManager->getRepository(Order::class)->findOneByReference($reference);
         $orderDetails = $order->getOrderDetails()->getValues();
-       
+
         //Tableau regroupant tous les produits ajoutés au panier
         $product_for_stripe = [];
         //Ajout de chaque produits au tableau $product_for_stripe
@@ -53,17 +52,17 @@ class StripeController extends AbstractController
         }
         //Ajout du transporteur
         $product_for_stripe[] =
-                [
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'unit_amount' => $order->getCarrierPrice() * 100,
-                        'product_data' => [
-                            'name' => $order->getCarrierName(),
-                            'images' => [$YOUR_DOMAIN] //A modifier avec logo transporteur
-                        ],
+            [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => $order->getCarrierPrice(),
+                    'product_data' => [
+                        'name' => $order->getCarrierName(),
+                        'images' => [$YOUR_DOMAIN] //A modifier avec logo transporteur
                     ],
-                    'quantity' => 1,
-                ];
+                ],
+                'quantity' => 1,
+            ];
 
 
         //Création de la session de paiement
@@ -74,11 +73,11 @@ class StripeController extends AbstractController
                 $product_for_stripe
             ],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . 'success.html',
-            'cancel_url' => $YOUR_DOMAIN . 'cancel.html',
+            'success_url' => $YOUR_DOMAIN . 'order/confirmation/{CHECKOUT_SESSION_ID}.html',
+            'cancel_url' => $YOUR_DOMAIN . 'order/error/{CHECKOUT_SESSION_ID}.html',
         ]);
-
-
+        $order->setStripeSessionId($checkout_session->id);
+        $entityManager->flush();
         return $this->redirect($checkout_session->url);
     }
 }
