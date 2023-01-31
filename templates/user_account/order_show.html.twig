@@ -6,12 +6,42 @@
 
     
     
-    <h1>Mes commandes</h1>
-  
-
+    <h1>Ma commande {{ order.reference }}</h1>
     <a href="{{path('account')}}">Retour</a><br/>
     <hr>
-  
-    {{ dump(order) }}    
+    
+
+    <strong>Commande passée le :</strong> {{ order.createdAt|date('d/m/Y')}}<br/>
+    <strong>Référence de ma commande :</strong> {{ order.reference}}<br/>
+    <strong>Transporteur choisi :</strong> {{ order.carrierName}}<br/>
+    <hr>
+    <strong>Détails de ma commande</strong><br/>
+
+        <table class="table mt-4">
+            <thead>
+            <tr>
+              <th scope="col">Produit</th>
+              <th scope="col">Quantité</th>
+              <th scope="col">Prix unitaire</th>
+              <th scope="col">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for product in order.orderDetails %}
+                    <tr>
+                        <td>{{ product.product }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{(( product.price)/100)|number_format(2, ',','' ) }} €</td>
+                        <td>{{(( product.total)/100)|number_format(2, ',','' ) }} €</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <div class="text-right">
+        <strong>Sous-Total :</strong> {{(( order.getTotal)/100)|number_format(2, ',','' ) }} €<br/>
+        <strong>Livraison :</strong> {{(( order.carrierPrice)/100)|number_format(2, ',','' ) }} €<br/>
+        <strong>Total :</strong> {{(( order.carrierPrice + order.getTotal)/100)|number_format(2, ',','' ) }} €
+    </div>
+    
    
 {% endblock %}

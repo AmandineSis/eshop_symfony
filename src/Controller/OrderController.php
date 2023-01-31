@@ -91,6 +91,7 @@ class OrderController extends AbstractController
 
                 $orderDetails->setMyOrder($order);
                 $orderDetails->setProduct($cartProduct['product']->getName());
+                // $orderDetails->setProduct($cartProduct['product']->getImage());
                 $orderDetails->setQuantity($cartProduct['quantity']); //tableau quantity se trouve directement dans l'objet $cartProduct
                 $orderDetails->setPrice($cartProduct['product']->getPrice());
                 $orderDetails->setTotal($cartProduct['product']->getPrice() * $cartProduct['quantity']);

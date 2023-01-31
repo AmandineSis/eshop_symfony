@@ -17,8 +17,8 @@
             Vous n'avez pas encore passé de commande sur Cocorico.</br>
         </p>
     {% else %}
-        <table class="table mt-4">
-            <table class="table">
+       
+        <table class="table">
             <thead>
               <tr>
                 <th scope="col">Référence</th>
@@ -30,21 +30,17 @@
             </thead>
             <tbody>
                 {% for order in orders %}
-                  <tr>
-                    <td><span class="badge badge-secondary">{{ order.reference }}</span></td>
-                    <td>{{ order.createdAt|date('d/m/Y') }}</td>
-                    <td>{{ order.orderDetails|length }}</td>
-                    <td> {{ ((order.carrierPrice + order.getTotal)/100)|number_format(2, ',','.' ) }} €</td>
-                    <td class="text-right"><a href="{{ path('account_order_details', { 'reference' : order.reference }) }}">Voir ma commande</a></td>
-                </tr>
-             
-            {% endfor %}
+                    <tr>
+                        <td><span class="badge badge-secondary">{{ order.reference }}</span></td>
+                        <td>{{ order.createdAt|date('d/m/Y') }}</td>
+                        <td>{{ order.orderDetails|length }}</td>
+                        <td>{{ ((order.carrierPrice + order.getTotal)/100)|number_format(2, ',','.' ) }} €</td>
+                        <td class="text-right"><a href="{{ path('account_order_details', { 'reference' : order. reference }) }}">Voir ma commande</a></td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
-
         
-            
-        </div>
     {% endif %}
     
    
