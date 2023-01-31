@@ -20,60 +20,64 @@ class SignupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            
-            ->add('firstname', TextType::class,[
-                'label'=>'Prénom',
+
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
                 'constraints' => new Length([
                     'min' => 2,
                     'max' => 30,
                     'minMessage' => 'Votre prénom doit contenir au moins 2 caractères',
                     'maxMessage' => 'Votre prénom ne doit pas contenir plus de 30 caractères'
                 ]),
-                'attr'=>[
-                    'placeholder'=>'Entrez votre prénom'
+                'attr' => [
+                    'placeholder' => 'Entrez votre prénom'
                 ]
             ]) //input
 
-            ->add('lastname', TextType::class,[
-                'label'=>'Nom',
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom',
                 'constraints' => new Length([
                     'min' => 2,
                     'max' => 30,
                     'minMessage' => 'Votre nom doit contenir au moins 2 caractères',
                     'maxMessage' => 'Votre nom ne doit pas contenir plus de 30 caractères'
                 ]),
-                'attr'=>[
-                    'placeholder'=>'Entrez votre nom'
+                'attr' => [
+                    'placeholder' => 'Entrez votre nom'
                 ]
             ]) //input
 
-            ->add('email', EmailType::class,[
-                'label'=>'Email',
-                'attr'=>[
-                    'placeholder'=>'Entrez votre adresse email'
-                ]
-            ]) //input
-
-            ->add('password', RepeatedType::class,[
-                'type'=> PasswordType::class,
-                'invalid_message'=>'les mots de passe doivent être identiques',
-                'label'=>'Mot de passe',
-                'required'=>true,
-                'first_options'=>[
-                    'label'=> 'Mot de passe',
-                    'attr'=>['placeholder'=>'Entrez un mot de passe']
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Entrez votre adresse email'
                 ],
-                'second_options'=>[
-                    'label'=>'Confirmez le mot de passe',
-                    'attr'=>['placeholder'=>'Confirmez le mot de passe']
-                    ]
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 55,
+                ]),
             ]) //input
 
-            ->add('submit', SubmitType::class,[
-                'label'=>"S'inscrire",
-                
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'les mots de passe doivent être identiques',
+                'label' => 'Mot de passe',
+                'required' => true,
+                'first_options' => [
+                    'label' => 'Mot de passe',
+                    'attr' => ['placeholder' => 'Entrez un mot de passe']
+                ],
+                'second_options' => [
+                    'label' => 'Confirmez le mot de passe',
+                    'attr' => ['placeholder' => 'Confirmez le mot de passe']
+                ]
             ]) //input
-            
+
+            ->add('submit', SubmitType::class, [
+                'label' => "S'inscrire",
+
+            ]) //input
+
         ;
     }
 
@@ -84,4 +88,3 @@ class SignupType extends AbstractType
         ]);
     }
 }
-
