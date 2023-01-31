@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Classes\Cart;
+use App\Classes\Mail;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +36,10 @@ class OrderSuccessController extends AbstractController
             $this->entityManager->flush();
 
             //Envoyer un Email à notre client pour lui confirmer sa commande
+             //Envoi d'un email de confirmation
+             $email= new Mail();
+             $content = "Bonjour".$order->getUser()->getFirstName()."<br/>Merci pour votre commande ".$order->getReference()."<br/><br/>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo nam eveniet commodi. Earum, distinctio voluptatum! Earum rerum, eligendi harum, itaque maxime accusantium laudantium suscipit magnam, voluptatum modi dolor dolores hic?";
+             $email->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(), 'Votre commande sur Cocorico est bien validée', $content);
 
         }
 
