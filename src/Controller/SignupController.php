@@ -37,6 +37,8 @@ class SignupController extends AbstractController
 
             $this->entityManager->persist($user); //figer les données
             $this->entityManager->flush(); //envoyer les données vers bdd
+
+            
         }
 
 
