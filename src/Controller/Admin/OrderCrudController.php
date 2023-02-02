@@ -62,10 +62,10 @@ class OrderCrudController extends AbstractCrudController
             ->setController(OrderCrudController::class)
             ->setAction(Action::INDEX) // ou ('index')
             ->generateUrl();
-        
+
         $email = new Mail();
         $content = "Bonjour" . $order->getUser()->getFirstName() . "<br/>Votre commande " . $order->getReference() . "est en cours de préparation !<br/>";
-        $email->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(),'Cocorico: Votre commande est en cours de préparation', $content);
+        $email->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(), 'Cocorico: Votre commande est en cours de préparation', $content);
 
         return $this->redirect($url);
     }
@@ -85,8 +85,8 @@ class OrderCrudController extends AbstractCrudController
 
         $email = new Mail();
         $content = "Bonjour" . $order->getUser()->getFirstName() . "<br/>Votre commande " . $order->getReference() . "est en cours de livraison et sera prochainement chez vous!<br/>";
-        $email->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(),'Cocorico: Votre commande est en cours de livraison', $content);
-    
+        $email->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(), 'Cocorico: Votre commande est en cours de livraison', $content);
+
 
         return $this->redirect($url);
     }
@@ -100,9 +100,10 @@ class OrderCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id'),
-            //DateTimeField::new('createdAt'),
+            //DateTimeField::new('createdAt', 'Passée le'),
             TextField::new('user.fullname', 'Utilisateur'),
             MoneyField::new('total', 'Total produits')->setCurrency('EUR'),
+            TextareaField::new('delivery', 'Adresse de Livraison')->renderAsHtml()->onlyOnDetail(),
             TextField::new('carrierName', 'Transporteur'),
             MoneyField::new('carrierPrice', 'Frais de port')->setCurrency('EUR'),
             ChoiceField::new('status')->setChoices([
