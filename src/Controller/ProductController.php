@@ -46,6 +46,7 @@ class ProductController extends AbstractController
         //  dd($slug); //test récupére la variable {slug} de l'url et l'injecte dans $slug
 
         $product = $this->entityManager->getRepository(Product::class)->findOneBySlug($slug);
+        $bestProducts = $this->entityManager->getRepository(Product::class)->findByIsBest(1);
 
         //si produit n'est pas trouvé alors redirection vers la page des produits
         if (!$product) {
@@ -54,6 +55,7 @@ class ProductController extends AbstractController
 
         return $this->render('product/displayProduct.html.twig', [
             'product' => $product,
+            'bestProducts' => $bestProducts
         ]);
     }
 }

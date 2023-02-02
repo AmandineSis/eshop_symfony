@@ -2,19 +2,28 @@
 
 namespace App\Controller;
 
-use App\Classes\Mail;
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
+    private $entityManager; //convention de nommage pour doctrine
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        $mail = new Mail();
-        $mail->send('am.sismondi@gmail.com', 'Harry Potter', 'Mon premier mail', 'Bonjour, comment ça va ?');
+        $products = $this->entityManager->getRepository(Product::class)->findByIsBest(1);
 
-        return $this->render('home/index.html.twig');
+        return $this->render('home/index.html.twig', [
+            'products' => $products
+        ]);
     }
 }
