@@ -28,19 +28,18 @@ class OrderSuccessController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        if (!$order->IsPaid()) {
+        if ($order->getStatus() == 0) {
             //vider la session "Cart"
             $cart->remove();
-            //modifier le status isPaid à 1 
-            $order->setIsPaid(1);
+            //modifier le status à 1 - '
+            $order->setStatus(1);
             $this->entityManager->flush();
 
             //Envoyer un Email à notre client pour lui confirmer sa commande
-             //Envoi d'un email de confirmation
-             $email= new Mail();
-             $content = "Bonjour".$order->getUser()->getFirstName()."<br/>Merci pour votre commande ".$order->getReference()."<br/><br/>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo nam eveniet commodi. Earum, distinctio voluptatum! Earum rerum, eligendi harum, itaque maxime accusantium laudantium suscipit magnam, voluptatum modi dolor dolores hic?";
-             $email->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(), 'Votre commande sur Cocorico est bien validée', $content);
-
+            //Envoi d'un email de confirmation
+            $email = new Mail();
+            $content = "Bonjour" . $order->getUser()->getFirstName() . "<br/>Merci pour votre commande " . $order->getReference() . "<br/><br/>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo nam eveniet commodi. Earum, distinctio voluptatum! Earum rerum, eligendi harum, itaque maxime accusantium laudantium suscipit magnam, voluptatum modi dolor dolores hic?";
+            $email->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(), 'Votre commande sur Cocorico est bien validée', $content);
         }
 
         return $this->render('order_confirmation/success.html.twig', [
