@@ -11,6 +11,15 @@
     <hr>
     
 
+    <strong>Statut de la commande :</strong> 
+        {% if order.status == 1 %}
+            Paiement accepté
+        {% elseif order.status == 2  %}
+            Préparation en cours
+        {% elseif order.status == 3 %}
+            Livraison en cours
+        {% endif %}
+    <br/>
     <strong>Commande passée le :</strong> {{ order.createdAt|date('d/m/Y')}}<br/>
     <strong>Référence de ma commande :</strong> {{ order.reference}}<br/>
     <strong>Transporteur choisi :</strong> {{ order.carrierName}}<br/>
