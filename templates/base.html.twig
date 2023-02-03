@@ -70,14 +70,14 @@
 
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
+                {% for key,header in headers %}
+                <li data-target="#myCarousel" data-slide-to="{{ key }}" {% if key == 0 %}class="active"{% endif %}></li>
+                {% endfor %}
             </ol>
-            <div class="carousel-inner">
 
-                {% for header in headers %}
-                    <div class="carousel-item active" style="background: url('/upload/{{ header.image }}');background-size:cover;">
+            <div class="carousel-inner">
+                {% for key,header in headers %}
+                    <div class="carousel-item {% if key == 0 %}active{% endif %}" style="background: url('/upload/{{ header.image }}');background-size:cover;">
                         <div class="container">
                             <div class="carousel-caption text-left">
                                 <h1>{{ header.title }}</h1>
