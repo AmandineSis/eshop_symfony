@@ -5,6 +5,12 @@
 {% block content %}
 
     <h1>Bienvenue {{app.user.firstname}}</h1>
+     {% if is_granted('ROLE_ADMIN') %}
+        <h3>Espace Administrateur</h3>
+        -<a href="/admin">Accéder au backoffice</a><br/>
+     {% endif %}
+    <hr>
+    <h3>Espace membre</h3>
    -<a href={{path('account_password')}}>Modifier mon mot de passe</a><br/>
    -<a href={{path('account_address')}}>Gérer mes adresses</a><br/>
    -<a href={{path('account_order')}}>Mes commandes</a><br/>

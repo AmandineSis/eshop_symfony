@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié- Cocorico{% endblock %}
+
+{% block content %}
+<div class="block-small">
+    
+    <form method="post">
+        <h1 class="h3 mb-3 font-weight-normal">Réinitialisation du mot de passe</h1>
+        {% for message in app.flashes('notice') %}
+        <div class="alert-info">{{ message }}</div>
+    {% endfor %}
+        <label for="inputEmail">Email</label>
+        <input type="email" value="" name="email" id="inputEmail" class="form-control"   autocomplete="email" placeholder="votre adresse email" required autofocus>
+
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+
+        <br>
+        <button class="btn btn-lg btn-block btn-info mt-3" type="submit">
+            Réinitialiser mon mot de passe
+        </button>
+        <hr>
+        <p class="text-center">Ou souhaitez-vous <a href="{{path('login')}}">vous connecter</a> ?</p>
+    </form>
+</div>
+
+{% endblock %}

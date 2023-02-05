@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié- Cocorico{% endblock %}
+
+{% block content %}
+<div class="block-small">
+      <h1 class="h3 mb-3 font-weight-normal">Réinitialiser mon mot de passe</h1>
+      {% for message in app.flashes('notice') %}
+        <div class="alert-info">{{ message }}</div>
+    {% endfor %}
+   
+    {{ form(UpdatePwdForm) }}
+</div>
+
+{% endblock %}
