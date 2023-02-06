@@ -39,7 +39,12 @@ class OrderSuccessController extends AbstractController
             //Envoi d'un email de confirmation
             $email = new Mail();
             $content = "Bonjour" . $order->getUser()->getFirstName() . "<br/>Merci pour votre commande " . $order->getReference() . "<br/><br/>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo nam eveniet commodi. Earum, distinctio voluptatum! Earum rerum, eligendi harum, itaque maxime accusantium laudantium suscipit magnam, voluptatum modi dolor dolores hic?";
-            $email->send($order->getUser()->getEmail(), $order->getUser()->getFirstName(), 'Votre commande sur Cocorico est bien validée', $content);
+            $email->send(
+                $order->getUser()->getEmail(),
+                $order->getUser()->getFirstName(),
+                'Votre commande sur Cocorico est bien validée',
+                $content
+            );
         }
 
         return $this->render('order_confirmation/success.html.twig', [
