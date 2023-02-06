@@ -1,4 +1,4 @@
-main{
+main {
     width: 100vw;
 }
 
@@ -72,4 +72,17 @@ main{
     background-color: #f4f8ff;
     padding: 20px;
     margin-top: 22px;
+}
+
+.account-item {
+    background-color: #f1f2f6;
+    padding: 60px;
+
+}
+
+.account-item a {
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #4b6584;
+    font-weight: bold;
 }
