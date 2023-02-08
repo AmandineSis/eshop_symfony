@@ -38,7 +38,7 @@ class SignupController extends AbstractController
             //vérification utilisateur unique
             $serach_email = $this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
 
-            if($serach_email){
+            if ($serach_email) {
                 //Envoi d'une notification
                 $notification = "L'email que vous avez renseigné existe déjà";
             } else {
@@ -46,19 +46,15 @@ class SignupController extends AbstractController
                 $user->setPassword($password);
                 $this->entityManager->persist($user); //figer les données
                 $this->entityManager->flush(); //envoyer les données vers bdd
-                
+
                 //Envoi d'un email de confirmation
-                $email= new Mail();
-                $content = "Bonjour".$user->getFirstName()."<br/>Bienvenue sur la boutique made in France.<br/><br/>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo nam eveniet commodi. Earum, distinctio voluptatum! Earum rerum, eligendi harum, itaque maxime accusantium laudantium suscipit magnam, voluptatum modi dolor dolores hic?";
+                $email = new Mail();
+                $content = "Bonjour" . $user->getFirstName() . "<br/>Bienvenue sur la boutique made in France.<br/><br/>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo nam eveniet commodi. Earum, distinctio voluptatum! Earum rerum, eligendi harum, itaque maxime accusantium laudantium suscipit magnam, voluptatum modi dolor dolores hic?";
                 $email->send($user->getEmail(), $user->getFirstName(), 'Bienvenue sur Cocorico', $content);
-                
+
                 //Notification de prise en compte de l'inscription
                 $notification = "Votre inscription est prise en compte, vous pouvez dès à présent vous connecterà  votre compte";
-
             }
-
-            
-            
         }
 
 

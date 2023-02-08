@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserAccountPswdController extends AbstractController
 {
@@ -26,17 +26,34 @@ class UserAccountPswdController extends AbstractController
 
     public function index(Request $req, UserPasswordHasherInterface $encoder): Response
     {
-        $user = $this->getUser(); //ajout de l'objet user courant à la variable $user
+        $notification = null;
         
+        $user = $this->getUser();
+        //dd($user);
         $form = $this->createForm(ChangePasswordType::class, $user);
 
         $form->handleRequest($req); //écoute la requête entrante
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+
             $oldPwd = $form->get('old_password')->getData();
+            if ($encoder->isPasswordValid($user, $oldPwd)) {
+                $newPwd = $form->get('new_password')->getData();
+                $password = $encoder->hashPassword($user, $newPwd);
+
+                $user->setPassword($password);
+                $this->entityManager->flush(); //envoyer les données vers bdd
+
+                $notification = "Votre mot de passe à bien été mis à jour";
+            } else {
+                $notification = "Votre mot de passe actuel est erroné, veuillez recommencer.";
+            }
         }
 
         return $this->render('user_account/password.html.twig', [
-            'passwordForm' => $form->createView() //ajoute le formulaire à la vue
+            'passwordForm' => $form->createView(), //ajoute le formulaire à la vue
+            'notification' => $notification
         ]);
     }
 }
